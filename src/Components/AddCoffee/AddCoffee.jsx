@@ -1,9 +1,12 @@
 import React from "react";
+import { useLoaderData } from "react-router-dom";
 import Swal from 'sweetalert2'
 
 
 
 const AddCoffee = () => {
+  const coffees = useLoaderData();
+  console.log(coffees)
 
     const handleAddCoffee = event => {
         event.preventDefault();
