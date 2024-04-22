@@ -1,8 +1,9 @@
 import React from "react";
+import Swal from 'sweetalert2'
+
+
 
 const AddCoffee = () => {
-
-
 
     const handleAddCoffee = event => {
         event.preventDefault();
@@ -27,6 +28,12 @@ const AddCoffee = () => {
         .then(res => res.json())
         .then(data => {
             console.log(data)
+            Swal.fire({
+                title: 'Success',
+                text: 'Do you want to continue',
+                icon: 'success',
+                confirmButtonText: 'Ok'
+              })
         })
     }
 
