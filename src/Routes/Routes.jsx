@@ -4,6 +4,7 @@ import Root from "../Layouts/Root";
 import Errorpage from "../Pages/Errorpage/Errorpage";
 import AddCoffee from "../Components/AddCoffee/AddCoffee";
 import CoffeeCard from "../Pages/CoffeeCard/CoffeeCard";
+import UpdateProfile from "../Components/UpdateProfile/UpdateProfile";
 
 
 const loader = async () => {
@@ -34,7 +35,11 @@ const router = createBrowserRouter([
         {
           path: "/coffeeCard",
           element: <CoffeeCard></CoffeeCard>,
-          
+        },
+        {
+          path: "/UpdateProfile/:id",
+          element: <UpdateProfile></UpdateProfile>,
+          loader: ({params}) => fetch(`http://localhost:5000/coffee/${params.id}`) 
         }
       ]
     },

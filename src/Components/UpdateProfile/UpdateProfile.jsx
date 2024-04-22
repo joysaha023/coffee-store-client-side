@@ -1,14 +1,15 @@
 import React from "react";
 import { useLoaderData } from "react-router-dom";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
+
+const UpdateProfile = () => {
+  const coffee = useLoaderData();
+
+  const { _id, name, quantity, supplier, taste, category, details, photourl } =
+    coffee;
 
 
-
-const AddCoffee = () => {
-  const coffees = useLoaderData();
-  console.log(coffees)
-
-    const handleAddCoffee = event => {
+    const handleUpdateCoffee = event => {
         event.preventDefault();
         const form = event.target;
         const name = form.name.value;
@@ -18,32 +19,34 @@ const AddCoffee = () => {
         const category = form.category.value;
         const details = form.details.value;
         const photourl = form.photourl.value;
-        const newCoffee = {name, quantity, supplier, taste, category, details, photourl}
-        console.log(newCoffee);
+        const updatedCoffee = {name, quantity, supplier, taste, category, details, photourl}
+        console.log(updatedCoffee);
 
-        fetch('http://localhost:5000/coffee', {
-            method: 'POST',
+        fetch(`http://localhost:5000/coffee/${_id}`, {
+            method: 'PUT',
             headers: {
                 'content-type' : 'application/json'
             },
-            body: JSON.stringify(newCoffee)
+            body: JSON.stringify(updatedCoffee)
         })
         .then(res => res.json())
         .then(data => {
             console.log(data)
-            Swal.fire({
-                title: 'Success',
-                text: 'New Coffee Added Successfully',
-                icon: 'success',
-                confirmButtonText: 'Ok'
-              })
+            if(data.modifiedCount > 0){
+                Swal.fire({
+                    title: 'Success',
+                    text: 'Coffee updated successfully',
+                    icon: 'success',
+                    confirmButtonText: 'Ok'
+                  })
+            }
         })
     }
 
   return (
     <div className="bg-[#F4F3F0] p-24">
-      <h2 className="text-4xl font-bold">Add coffee</h2>
-      <form className="text-center w-2/4" onSubmit={handleAddCoffee}>
+      <h2 className="text-4xl font-bold">Update coffee: {name}</h2>
+      <form className="text-center w-2/4" onSubmit={handleUpdateCoffee}>
         <div className="md:flex">
           <div className="form-control md:w-1/2 ">
             <label className="label">
@@ -52,6 +55,7 @@ const AddCoffee = () => {
             <input
               type="text"
               placeholder="Coffee Name"
+              defaultValue={name}
               name="name"
               className="input input-bordered w-full"
               required
@@ -65,6 +69,7 @@ const AddCoffee = () => {
               type="text"
               placeholder="Available Quantity"
               name="quantity"
+              defaultValue={quantity}
               className="input input-bordered w-full"
               required
             />
@@ -79,6 +84,7 @@ const AddCoffee = () => {
               type="text"
               placeholder="Supplier"
               name="supplier"
+              defaultValue={supplier}
               className="input input-bordered w-full"
               required
             />
@@ -91,6 +97,7 @@ const AddCoffee = () => {
               type="text"
               placeholder="Taste"
               name="taste"
+              defaultValue={taste}
               className="input input-bordered w-full"
               required
             />
@@ -105,6 +112,7 @@ const AddCoffee = () => {
               type="text"
               placeholder="Category"
               name="category"
+              defaultValue={category}
               className="input input-bordered w-full"
               required
             />
@@ -117,6 +125,7 @@ const AddCoffee = () => {
               type="text"
               placeholder="Details"
               name="details"
+              defaultValue={details}
               className="input input-bordered w-full"
               required
             />
@@ -131,15 +140,20 @@ const AddCoffee = () => {
               type="text"
               placeholder="Photo URL"
               name="photourl"
+              defaultValue={photourl}
               className="input input-bordered w-full"
               required
             />
           </div>
         </div>
-        <input type="submit" value="Add Coffee" className="btn btn-block bg-[#D2B48C] mt-10" />
+        <input
+          type="submit"
+          value="Add Coffee"
+          className="btn btn-block bg-[#D2B48C] mt-10"
+        />
       </form>
     </div>
   );
 };
 
-export default AddCoffee;
+export default UpdateProfile;
