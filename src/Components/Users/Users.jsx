@@ -1,9 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLoaderData } from "react-router-dom";
 
 const Users = () => {
-  const users = useLoaderData();
-  console.log(users);
+  const loadedUsers = useLoaderData();
+  const [users, setUsers] = useState(loadedUsers);
+  
+  const handleDelete = id =>{
+    //make sure user is confirmed to delete
+    fetch(`http://localhost:5000/user/${id}`, {
+        method: 'DELETE'
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.deletedCount > 0){
+            console.log('deleted successfully');
+            //remove the user from the UI
+            const remainingUser = users.filter(user => user._id !== id)
+            setUsers(remainingUser)
+        }
+    })
+  }
+
   return (
     <div>
       <h2>Users page</h2>
@@ -15,6 +32,7 @@ const Users = () => {
               <th></th>
               <th>Email</th>
               <th>Created At</th>
+              <th>Logged In</th>
               <th>Action </th>
             </tr>
           </thead>
@@ -25,7 +43,8 @@ const Users = () => {
                 <th>1</th>
                 <td>{user.email}</td>
                 <td>{user.createdAt}</td>
-                <td><button className="btn btn-sm btn-error text-white">Delete</button></td>
+                <td>{user.lastLoggedAt}</td>
+                <td><button onClick={() => handleDelete(user._id)} className="btn btn-sm btn-error text-white">Delete</button></td>
               </tr>)
             }
             
