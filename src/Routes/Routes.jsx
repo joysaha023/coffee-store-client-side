@@ -7,6 +7,7 @@ import CoffeeCard from "../Pages/CoffeeCard/CoffeeCard";
 import UpdateProfile from "../Components/UpdateProfile/UpdateProfile";
 import SignUp from "../Components/SignUp/SignUp";
 import SignIn from "../Components/SignIn/SignIn";
+import Users from "../Components/Users/Users";
 
 
 const loader = async () => {
@@ -50,6 +51,11 @@ const router = createBrowserRouter([
         {
           path: "/signin",
           element: <SignIn></SignIn>
+        },
+        {
+          path: "/users",
+          element: <Users></Users>,
+          loader: () => fetch('http://localhost:5000/user')
         }
       ]
     },
