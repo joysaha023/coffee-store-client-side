@@ -11,7 +11,7 @@ import Users from "../Components/Users/Users";
 
 
 const loader = async () => {
-  const response = await fetch('http://localhost:5000/coffee');
+  const response = await fetch('https://coffee-store-server-side-blue.vercel.app/coffee');
   if (!response.ok) {
     throw new Error('Failed to fetch data');
   }
@@ -42,7 +42,7 @@ const router = createBrowserRouter([
         {
           path: "/UpdateProfile/:id",
           element: <UpdateProfile></UpdateProfile>,
-          loader: ({params}) => fetch(`http://localhost:5000/coffee/${params.id}`) 
+          loader: ({params}) => fetch(`https://coffee-store-server-side-blue.vercel.app/coffee/${params.id}`) 
         },
         {
           path: "/signup",
@@ -55,7 +55,7 @@ const router = createBrowserRouter([
         {
           path: "/users",
           element: <Users></Users>,
-          loader: () => fetch('http://localhost:5000/user')
+          loader: () => fetch('https://coffee-store-server-side-blue.vercel.app/user')
         }
       ]
     },
